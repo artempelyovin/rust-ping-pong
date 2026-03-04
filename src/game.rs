@@ -1,0 +1,66 @@
+use crate::constants::{
+    BALL_RADIUS, CENTER_X, CENTER_Y, PADDLE_HEIGHT, PADDLE_WIDTH, WINDOW_HEIGHT,
+};
+use crate::entities::ball::Ball;
+use crate::entities::paddle::Paddle;
+use macroquad::color::WHITE;
+use macroquad::input::mouse_position;
+use macroquad::prelude::draw_text;
+
+pub struct Game {
+    player_paddle: Paddle,
+    enemy_paddle: Paddle,
+    ball: Ball,
+    player_score: i32,
+    enemy_score: i32,
+}
+
+impl Game {
+    pub fn new() -> Self {
+        Self {
+            player_paddle: Paddle {
+                x: CENTER_X,
+                y: WINDOW_HEIGHT - PADDLE_HEIGHT / 2.0,
+                width: PADDLE_WIDTH,
+                height: PADDLE_HEIGHT,
+                color: WHITE,
+            },
+            enemy_paddle: Paddle {
+                x: CENTER_X,
+                y: 0.0 + PADDLE_HEIGHT / 2.0,
+                width: PADDLE_WIDTH,
+                height: PADDLE_HEIGHT,
+                color: WHITE,
+            },
+            ball: Ball::new(CENTER_X, CENTER_Y, BALL_RADIUS, WHITE),
+            player_score: 0,
+            enemy_score: 0,
+        }
+    }
+
+    pub fn update(&mut self) {
+        self.ball.tick(&self.player_paddle, &self.enemy_paddle);
+        let (x, _) = mouse_position();
+        self.player_paddle.move_to(x);
+        self.enemy_paddle
+            .move_to(self.ball.x - self.enemy_paddle.width / 2.0);
+
+        if self.ball.check_player_loss() {
+            self.enemy_score += 1;
+            self.ball.respawn_from_center();
+        } else if self.ball.check_enemy_loss() {
+            self.player_score += 1;
+            self.ball.respawn_from_center();
+        } else {
+            self.ball.accelerate_ball();
+        }
+    }
+
+    pub fn draw(&self) {
+        let score = format!("{}: {}", self.player_score, self.enemy_score);
+        draw_text(score.as_str(), CENTER_X - 50.0, CENTER_Y, 50.0, WHITE);
+        self.ball.draw();
+        self.player_paddle.draw();
+        self.enemy_paddle.draw();
+    }
+}
