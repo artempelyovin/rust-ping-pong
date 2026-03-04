@@ -1,9 +1,10 @@
 mod constants;
-mod models;
+mod entities;
 
 use crate::constants::{BALL_RADIUS, CENTER_X, CENTER_Y};
-use crate::models::{Ball, Paddle};
+use crate::entities::paddle::Paddle;
 use constants::{PADDLE_HEIGHT, PADDLE_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH};
+use entities::ball::Ball;
 use macroquad::prelude::*;
 
 fn window_conf() -> Conf {
@@ -52,13 +53,7 @@ async fn main() {
         }
 
         let score = format!("{}: {}", player_score, enemy_score);
-        draw_text(
-            score.as_str(),
-            CENTER_X - 50.0,
-            CENTER_Y,
-            50.0,
-            WHITE,
-        );
+        draw_text(score.as_str(), CENTER_X - 50.0, CENTER_Y, 50.0, WHITE);
         ball.draw();
         player_paddle.draw();
         enemy_paddle.draw();
