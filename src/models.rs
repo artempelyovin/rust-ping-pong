@@ -2,7 +2,7 @@ use crate::constants::{BALL_START_SPEED, CENTER_X, CENTER_Y, WINDOW_HEIGHT, WIND
 use macroquad::color::Color;
 use macroquad::prelude::{draw_circle, draw_line};
 
-pub struct Racket {
+pub struct Paddle {
     pub x: f32,
     pub y: f32,
     pub width: f32,
@@ -10,7 +10,7 @@ pub struct Racket {
     pub color: Color,
 }
 
-impl Racket {
+impl Paddle {
     fn calculate_x1_x2(&self) -> (f32, f32) {
         let x1 = if self.x < 0.0 {
             0.0
@@ -87,7 +87,7 @@ impl Ball {
         }
     }
 
-    pub fn tick(&mut self, player: &Racket, enemy: &Racket) {
+    pub fn tick(&mut self, player: &Paddle, enemy: &Paddle) {
         self.x -= self.dx;
         self.y -= self.dy;
         // Столкновение о стенки

@@ -2,8 +2,8 @@ mod constants;
 mod models;
 
 use crate::constants::{BALL_RADIUS, CENTER_X, CENTER_Y};
-use crate::models::{Ball, Racket};
-use constants::{RACKET_HEIGHT, RACKET_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH};
+use crate::models::{Ball, Paddle};
+use constants::{PADDLE_HEIGHT, PADDLE_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH};
 use macroquad::prelude::*;
 
 fn window_conf() -> Conf {
@@ -21,25 +21,25 @@ async fn main() {
     let mut player_score = 0;
     let mut enemy_score = 0;
     let mut ball = Ball::new(CENTER_X, CENTER_Y, BALL_RADIUS, WHITE);
-    let mut player_racket = Racket {
+    let mut player_paddle = Paddle {
         x: CENTER_X,
-        y: WINDOW_HEIGHT - RACKET_HEIGHT / 2.0,
-        width: RACKET_WIDTH,
-        height: RACKET_HEIGHT,
+        y: WINDOW_HEIGHT - PADDLE_HEIGHT / 2.0,
+        width: PADDLE_WIDTH,
+        height: PADDLE_HEIGHT,
         color: WHITE,
     };
-    let mut enemy_racket = Racket {
+    let mut enemy_paddle = Paddle {
         x: CENTER_X,
-        y: 0.0 + RACKET_HEIGHT / 2.0,
-        width: RACKET_WIDTH,
-        height: RACKET_HEIGHT,
+        y: 0.0 + PADDLE_HEIGHT / 2.0,
+        width: PADDLE_WIDTH,
+        height: PADDLE_HEIGHT,
         color: WHITE,
     };
     loop {
-        ball.tick(&player_racket, &enemy_racket);
+        ball.tick(&player_paddle, &enemy_paddle);
         let (x, _) = mouse_position();
-        player_racket.move_to(x);
-        enemy_racket.move_to(ball.x - enemy_racket.width / 2.0);
+        player_paddle.move_to(x);
+        enemy_paddle.move_to(ball.x - enemy_paddle.width / 2.0);
 
         if ball.check_player_loss() {
             enemy_score += 1;
@@ -60,8 +60,8 @@ async fn main() {
             WHITE,
         );
         ball.draw();
-        player_racket.draw();
-        enemy_racket.draw();
+        player_paddle.draw();
+        enemy_paddle.draw();
 
         next_frame().await
     }
