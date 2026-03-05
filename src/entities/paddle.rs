@@ -1,17 +1,26 @@
-use crate::constants::WINDOW_WIDTH;
+use crate::constants::{PADDLE_HEIGHT, PADDLE_WIDTH, WINDOW_WIDTH};
 use crate::entities::ball::Ball;
-use macroquad::color::Color;
+use macroquad::color::{Color, WHITE};
 use macroquad::shapes::draw_line;
 
 pub struct Paddle {
-    pub x: f32,
-    pub y: f32,
+    x: f32,
+    y: f32,
     pub width: f32,
     pub height: f32,
     pub color: Color,
 }
 
 impl Paddle {
+    pub fn new(x: f32, y: f32) -> Self {
+        Self {
+            x,
+            y,
+            width: PADDLE_WIDTH,
+            height: PADDLE_HEIGHT,
+            color: WHITE,
+        }
+    }
     fn calculate_x1_x2(&self) -> (f32, f32) {
         let x1 = if self.x < 0.0 {
             0.0

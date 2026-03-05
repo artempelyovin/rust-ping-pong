@@ -1,6 +1,4 @@
-use crate::constants::{
-    BALL_RADIUS, CENTER_X, CENTER_Y, PADDLE_HEIGHT, PADDLE_WIDTH, WINDOW_HEIGHT,
-};
+use crate::constants::{BALL_RADIUS, CENTER_X, CENTER_Y, PADDLE_HEIGHT, WINDOW_HEIGHT};
 use crate::entities::ball::Ball;
 use crate::entities::paddle::Paddle;
 use macroquad::color::WHITE;
@@ -11,27 +9,15 @@ pub struct Game {
     player_paddle: Paddle,
     enemy_paddle: Paddle,
     ball: Ball,
-    player_score: i32,
-    enemy_score: i32,
+    player_score: u32,
+    enemy_score: u32,
 }
 
 impl Game {
     pub fn new() -> Self {
         Self {
-            player_paddle: Paddle {
-                x: CENTER_X,
-                y: WINDOW_HEIGHT - PADDLE_HEIGHT / 2.0,
-                width: PADDLE_WIDTH,
-                height: PADDLE_HEIGHT,
-                color: WHITE,
-            },
-            enemy_paddle: Paddle {
-                x: CENTER_X,
-                y: 0.0 + PADDLE_HEIGHT / 2.0,
-                width: PADDLE_WIDTH,
-                height: PADDLE_HEIGHT,
-                color: WHITE,
-            },
+            player_paddle: Paddle::new(CENTER_X, WINDOW_HEIGHT - PADDLE_HEIGHT / 2.0),
+            enemy_paddle: Paddle::new(CENTER_X, 0.0 + PADDLE_HEIGHT / 2.0),
             ball: Ball::new(CENTER_X, CENTER_Y, BALL_RADIUS, WHITE),
             player_score: 0,
             enemy_score: 0,
