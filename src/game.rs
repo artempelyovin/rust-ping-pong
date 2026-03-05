@@ -29,6 +29,11 @@ impl Game {
         self.player_paddle.move_to(x);
     }
 
+    fn update_ball(&mut self) {
+        self.ball.update(&self.player_paddle, &self.enemy_paddle);
+        self.ball.accelerate();
+    }
+
     fn update_enemy(&mut self) {
         // Invincible AI :D
         self.enemy_paddle
@@ -42,15 +47,13 @@ impl Game {
         } else if self.ball.check_enemy_loss() {
             self.player_score += 1;
             self.ball.respawn_from_center();
-        } else {
-            self.ball.accelerate_ball();
         }
     }
 
     pub fn update(&mut self) {
         self.update_player();
         self.update_enemy();
-        self.ball.update(&self.player_paddle, &self.enemy_paddle);
+        self.update_ball();
         self.update_score();
     }
 

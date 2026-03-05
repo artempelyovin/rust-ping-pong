@@ -31,7 +31,7 @@ impl Ball {
         self.dy = BALL_START_SPEED;
     }
 
-    pub fn accelerate_ball(&mut self) {
+    pub fn accelerate(&mut self) {
         if self.dx < 0.0 {
             self.dx -= 0.01
         } else {
