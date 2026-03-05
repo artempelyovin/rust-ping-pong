@@ -44,7 +44,7 @@ impl Ball {
         }
     }
 
-    pub fn tick(&mut self, player: &Paddle, enemy: &Paddle) {
+    pub fn update(&mut self, player: &Paddle, enemy: &Paddle) {
         self.x -= self.dx;
         self.y -= self.dy;
         // Столкновение о стенки
